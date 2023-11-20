@@ -1,22 +1,36 @@
-local M = {}
+-- Enable line numbering and set it to relative
+vim.opt.number = true          -- Turn on line numbering
+vim.opt.relativenumber = true  -- Make line numbers relative
 
-M.lsp = {
-}
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.softtabstop = 4
+vim.opt.expandtab = true  -- This converts tabs to spaces.
 
--- Apply the same capabilities for all LSP servers
-M.lsp.on_attach = function(client, bufnr)
-    if client.config.flags then
+local M = {
+  lsp = {
+    ["server-settings"] = {
+      clangd = {
+        ["fallback-style"] = {
+          BasedOnStyle = "Google",
+          IndentWidth = 4,
+          TabWidth = 4
+        }
+      }
+    },
+    on_attach = function(client, bufnr)
+      if client.config.flags then
         client.config.flags.allow_incremental_sync = true
-    end
-    if client.name == 'null-ls' then
-      client.offset_encoding = "utf-8"
-    end
-    if client.name == 'clangd' then
-      client.offset_encoding = "utf-8"
-    end
-  end
-
-M.plugins = {
+      end
+      if client.name == 'null-ls' then
+        client.offset_encoding = "utf-8"
+      end
+      if client.name == 'clangd' then
+        client.offset_encoding = "utf-8"
+      end
+    end,
+  },
+  plugins = {
     {
       "p00f/clangd_extensions.nvim", -- install lsp plugin
       init = function()
@@ -38,9 +52,32 @@ M.plugins = {
     {
       "williamboman/mason-lspconfig.nvim",
       opts = {
-        ensure_installed = { "clangd" }, -- automatically install lsp
+        ensure_installed = { "clangd", "pyright", "lua_ls", "bashls" }, -- automatically install lsp
       },
     },
+    {
+      "jay-babu/mason-nvim-dap.nvim",
+      opts = {
+        ensure_installed = { "codelldb", "debugpy" }, -- automatically install dap
+      },
+    },
+    {
+      "nvim-neo-tree/neo-tree.nvim",
+      opts = {
+        event_handlers = {
+          {
+            event = "neo_tree_buffer_enter",
+            handler = function(_)
+              vim.cmd [[
+                setlocal number
+                setlocal relativenumber
+              ]]
+            end,
+          }
+        },
+      }
+    }
   }
+}
 
 return M
