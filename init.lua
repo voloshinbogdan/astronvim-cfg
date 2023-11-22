@@ -52,13 +52,13 @@ local M = {
     {
       "williamboman/mason-lspconfig.nvim",
       opts = {
-        ensure_installed = { "clangd", "pyright", "lua_ls", "bashls" }, -- automatically install lsp
+        ensure_installed = { "clangd", "pyright", "lua_ls", "bashls", "neocmake" }, -- automatically install lsp
       },
     },
     {
       "jay-babu/mason-nvim-dap.nvim",
       opts = {
-        ensure_installed = { "codelldb", "debugpy" }, -- automatically install dap
+        ensure_installed = { "debugpy" }, -- automatically install dap
       },
     },
     {
