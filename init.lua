@@ -2,6 +2,12 @@
 vim.opt.number = true          -- Turn on line numbering
 vim.opt.relativenumber = true  -- Make line numbers relative
 
+vim.cmd("cnoreabbrev R Task start cmake run")
+vim.cmd("cnoreabbrev B Task start cmake build_all")
+vim.cmd("cnoreabbrev I Task start cmake configure")
+vim.cmd("cnoreabbrev T Task set_module_param cmake target")
+vim.cmd("cnoreabbrev D Task start cmake debug")
+
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
