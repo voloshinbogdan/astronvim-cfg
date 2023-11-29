@@ -15,13 +15,15 @@ vim.opt.expandtab = true  -- This converts tabs to spaces.
 
 local M = {
   lsp = {
-    ["server-settings"] = {
+    config = {
       clangd = {
-        ["fallback-style"] = {
-          BasedOnStyle = "Google",
-          IndentWidth = 4,
-          TabWidth = 4
-        }
+        filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
+        cmd = {
+          "clangd",
+          "--fallback-style=webkit",
+          -- Other command-line arguments...
+        },
+
       }
     },
     on_attach = function(client, bufnr)
@@ -34,7 +36,10 @@ local M = {
       if client.name == 'clangd' then
         client.offset_encoding = "utf-8"
       end
-    end,
+      if client.name == 'bufls' then
+        client.offset_encoding = "utf-8"
+      end
+    end
   },
   plugins = {
     {
@@ -58,7 +63,7 @@ local M = {
     {
       "williamboman/mason-lspconfig.nvim",
       opts = {
-        ensure_installed = { "clangd", "pyright", "lua_ls", "bashls", "neocmake" }, -- automatically install lsp
+        ensure_installed = { "clangd", "pyright", "lua_ls", "bashls", "neocmake", "bufls" }, -- automatically install lsp
       },
     },
     {
