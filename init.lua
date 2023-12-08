@@ -11,6 +11,11 @@ function Dump(o)
    end
 end
 
+vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
+    pattern = "*.template",
+    command = "call jinja#AdjustCompoundFiletype(expand('<afile>'))"
+})
+
 vim.cmd("cnoreabbrev R Task start cmake run")
 vim.cmd("cnoreabbrev B Task start cmake build_all")
 vim.cmd("cnoreabbrev I Task start cmake configure")
@@ -158,7 +163,10 @@ local M = {
                 }
             }
         end
+    },
+    {
+      "voloshinbogdan/jinja.vim",
+      lazy = false
     }
-  }
-}
+  }}
 return M
