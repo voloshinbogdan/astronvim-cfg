@@ -1,19 +1,34 @@
--- Enable line numbering and set it to relative
-vim.opt.number = true          -- Turn on line numbering
-vim.opt.relativenumber = true  -- Make line numbers relative
+function Dump(o)
+   if type(o) == 'table' then
+      local s = '{ '
+      for k,v in pairs(o) do
+         if type(k) ~= 'number' then k = '"'..k..'"' end
+         s = s .. '['..k..'] = ' .. Dump(v) .. ','
+      end
+      return s .. '} '
+   else
+      return tostring(o)
+   end
+end
 
 vim.cmd("cnoreabbrev R Task start cmake run")
 vim.cmd("cnoreabbrev B Task start cmake build_all")
 vim.cmd("cnoreabbrev I Task start cmake configure")
 vim.cmd("cnoreabbrev T Task set_module_param cmake target")
 vim.cmd("cnoreabbrev D Task start cmake debug")
-
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.softtabstop = 4
-vim.opt.expandtab = true  -- This converts tabs to spaces.
+vim.opt.scrolloff = 8
 
 local M = {
+  options = {
+    opt = {
+      -- set to true or false etc.
+      relativenumber = true, -- sets vim.opt.relativenumber
+      number = true, -- sets vim.opt.number
+      shiftwidth = 4,
+      tabstop = 4
+    },
+  },
+
   lsp = {
     config = {
       clangd = {
@@ -63,7 +78,7 @@ local M = {
     {
       "williamboman/mason-lspconfig.nvim",
       opts = {
-        ensure_installed = { "clangd", "pyright", "lua_ls", "bashls", "neocmake", "bufls" }, -- automatically install lsp
+        ensure_installed = { "clangd", "pyright", "lua_ls", "bashls", "neocmake", "bufls", "yamlls" }, -- automatically install lsp
       },
     },
     {
@@ -117,6 +132,32 @@ local M = {
           dap_open_command = function() return require('dap').repl.open() end, -- Command to run after starting DAP session. You can set it to `false` if you don't want to open anything or `require('dapui').open` if you are using https://github.com/rcarriga/nvim-dap-ui
         }
     end
+    },
+    {
+        "Exafunction/codeium.nvim",
+        lazy = false,
+        dependencies = {"nvim-lua/plenary.nvim", "hrsh7th/nvim-cmp"},
+        config = function()
+            local lspkind = require("lspkind")
+            local cmp = require("cmp")
+            local config = cmp.get_config()
+            table.insert(config.sources, {
+              name = 'codeium',
+              ["priority"] = 1500,
+              ["group_index"] = 1,
+            })
+            require("codeium").setup {
+                cmp.setup(config),
+                formatting = {
+                    format = lspkind.cmp_format({
+                        mode = "symbol",
+                        maxwidth = 50,
+                        ellipsis_char = '...',
+                        symbol_map = {Codeium = ""}
+                    })
+                }
+            }
+        end
     }
   }
 }
