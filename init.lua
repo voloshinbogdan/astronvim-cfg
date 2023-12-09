@@ -89,7 +89,7 @@ local M = {
     {
       "jay-babu/mason-nvim-dap.nvim",
       opts = {
-        ensure_installed = { "debugpy", "cpptools" }, -- automatically install dap
+        ensure_installed = { "debugpy", "cpptools", "powershell_es" }, -- automatically install dap
       },
     },
     {
@@ -167,6 +167,12 @@ local M = {
     {
       "voloshinbogdan/jinja.vim",
       lazy = false
+    },
+    {
+      "jose-elias-alvarez/null-ls.nvim",
+      opts = {
+        ensure_installed = { "flake8" }, -- automatically install linters
+      },
     }
   }}
 return M
