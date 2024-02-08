@@ -139,6 +139,15 @@ local M = {
     end
     },
     {
+      "voloshinbogdan/jinja.vim",
+      lazy = false
+    }
+  }}
+
+if not os.getenv("NVIMLIGHT") then
+  -- add  codeium plugin to M.plugins
+  table.insert(M.plugins,
+    {
         "Exafunction/codeium.nvim",
         lazy = false,
         dependencies = {"nvim-lua/plenary.nvim", "hrsh7th/nvim-cmp"},
@@ -163,10 +172,9 @@ local M = {
                 }
             }
         end
-    },
-    {
-      "voloshinbogdan/jinja.vim",
-      lazy = false
-    }
-  }}
+    })
+else
+  -- turn off codeium plugin in M.plugins
+end
+
 return M
