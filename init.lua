@@ -30,7 +30,11 @@ local M = {
       relativenumber = true, -- sets vim.opt.relativenumber
       number = true, -- sets vim.opt.number
       shiftwidth = 4,
-      tabstop = 4
+      tabstop = 4,
+      colorcolumn = "80"
+    },
+    g = {
+      autoformat_enabled = false
     },
   },
 
