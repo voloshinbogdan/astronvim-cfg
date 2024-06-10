@@ -16,12 +16,24 @@ vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
     command = "call jinja#AdjustCompoundFiletype(expand('<afile>'))"
 })
 
-vim.cmd("cnoreabbrev R Task start cmake run")
-vim.cmd("cnoreabbrev B Task start cmake build_all")
-vim.cmd("cnoreabbrev I Task start cmake configure")
-vim.cmd("cnoreabbrev T Task set_module_param cmake target")
-vim.cmd("cnoreabbrev D Task start cmake debug")
 vim.opt.scrolloff = 8
+
+function ToggleQuickfix()
+  local quickfix_open = false
+  for _, win in ipairs(vim.fn.getwininfo()) do
+    if win.quickfix == 1 then
+      quickfix_open = true
+      break
+    end
+  end
+  if quickfix_open then
+    vim.cmd('cclose')
+  else
+    vim.cmd('copen')
+  end
+end
+
+
 
 local M = {
   mappings = {
@@ -29,7 +41,15 @@ local M = {
     n = {
       -- second key is the lefthand side of the map
       -- mappings seen under group name "Buffer"
-      ["<Leader>fT"] = { "<cmd>TodoTelescope<cr>", desc = "Todo" },
+      ["<Leader>fT"] = { "<cmd>TodoTelescope<cr>", desc = "Find Todo" },
+      ["<Leader>r"] = { desc = "󱌣 Build"},
+      ["<Leader>rq"] = { "<cmd>lua ToggleQuickfix()<cr>", desc = "Toggle Quickfix" },
+      ["<Leader>rr"] = { "<cmd>Task start cmake run<cr>", desc = "Run"},
+      ["<Leader>rb"] = { "<cmd>Task start cmake build_all<cr>", desc = "Build All"},
+      ["<Leader>ri"] = { "<cmd>Task start cmake configure<cr>", desc = "Default init"},
+      ["<Leader>rt"] = { "<cmd>Task set_module_param cmake target<cr>", desc = "Target"},
+      ["<Leader>rd"] = { "<cmd>Task start cmake debug<cr>", desc = "Debug"},
+      ["<Leader>rx"] = { "<cmd>Task cancel<cr>", desc = "Cancel"}
     }
   },
   options = {
@@ -71,6 +91,25 @@ local M = {
     end
   },
   plugins = {
+    {
+      "m00qek/baleia.nvim",
+      lazy = false,
+      version = "*",
+      config = function()
+        vim.g.baleia = require("baleia").setup({})
+        vim.api.nvim_create_autocmd({ "BufReadPost" }, {
+          pattern = "quickfix",
+          callback = function()
+            local buffer = vim.api.nvim_get_current_buf()
+            vim.api.nvim_set_option_value("modifiable", true, { buf = buffer })
+            vim.g.baleia.once(buffer)
+            vim.api.nvim_set_option_value("modified", false, { buf = buffer })
+            vim.api.nvim_set_option_value("modifiable", false, { buf = buffer })
+          end,
+        })
+      end
+      
+    },
     {
       "p00f/clangd_extensions.nvim", -- install lsp plugin
       init = function()
@@ -200,6 +239,8 @@ if not os.getenv("NVIMLIGHT") then
     })
 else
   -- turn off codeium plugin in M.plugins
+
 end
+
 
 return M
