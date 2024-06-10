@@ -24,6 +24,14 @@ vim.cmd("cnoreabbrev D Task start cmake debug")
 vim.opt.scrolloff = 8
 
 local M = {
+  mappings = {
+    -- first key is the mode
+    n = {
+      -- second key is the lefthand side of the map
+      -- mappings seen under group name "Buffer"
+      ["<Leader>fT"] = { "<cmd>TodoTelescope<cr>", desc = "Todo" },
+    }
+  },
   options = {
     opt = {
       -- set to true or false etc.
@@ -32,10 +40,7 @@ local M = {
       shiftwidth = 4,
       tabstop = 4,
       colorcolumn = "80"
-    },
-    g = {
-      autoformat_enabled = false
-    },
+    }
   },
 
   lsp = {
@@ -89,6 +94,16 @@ local M = {
       opts = {
         ensure_installed = { "clangd", "pyright", "lua_ls", "bashls", "neocmake", "bufls", "yamlls" }, -- automatically install lsp
       },
+    },
+    {
+      "folke/todo-comments.nvim",
+      lazy = false,
+      dependencies = { "nvim-lua/plenary.nvim" },
+      opts = {
+        -- your configuration comes here
+        -- or leave it empty to use the default settings
+        -- refer to the configuration section below
+      }
     },
     {
       "jay-babu/mason-nvim-dap.nvim",
