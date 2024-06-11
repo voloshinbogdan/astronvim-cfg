@@ -34,7 +34,6 @@ function ToggleQuickfix()
 end
 
 
-
 local M = {
   mappings = {
     -- first key is the mode
@@ -101,14 +100,45 @@ local M = {
           pattern = "quickfix",
           callback = function()
             local buffer = vim.api.nvim_get_current_buf()
-            vim.api.nvim_set_option_value("modifiable", true, { buf = buffer })
+
+            -- Store the original vim.fn.setqflist function
+            local original_setqflist = vim.fn.setqflist
+
             vim.g.baleia.once(buffer)
-            vim.api.nvim_set_option_value("modified", false, { buf = buffer })
-            vim.api.nvim_set_option_value("modifiable", false, { buf = buffer })
+            -- Override the vim.fn.setqflist function
+            vim.fn.setqflist = function(list, action, what)
+              -- Get the lines before updating the quickfix list
+              local original_lines = vim.api.nvim_buf_get_lines(buffer, 0, -1, false)
+
+              -- Call the original setqflist function
+              local result = original_setqflist(list, action, what)
+
+              -- Get the lines after updating the quickfix list
+              local new_lines = vim.api.nvim_buf_get_lines(buffer, 0, -1, false)
+
+              -- Find the range of new lines added
+              local start = #original_lines
+              local end_ = #new_lines
+
+              if new_lines[1] ~= original_lines[1] then
+                start = 0
+                end_ = #new_lines
+              end
+
+              if start < end_ then
+                vim.api.nvim_set_option_value("modifiable", true, { buf = buffer })
+                vim.g.baleia.buf_set_lines(buffer, start, end_, false, vim.api.nvim_buf_get_lines(buffer, start, end_, false))
+                vim.api.nvim_set_option_value("modified", false, { buf = buffer })
+                vim.api.nvim_set_option_value("modifiable", false, { buf = buffer })
+              end
+
+              -- Return the result of the original setqflist function
+              return result
+            end
+
           end,
         })
       end
-      
     },
     {
       "p00f/clangd_extensions.nvim", -- install lsp plugin
