@@ -30,6 +30,12 @@ function ToggleQuickfix()
     vim.cmd('cclose')
   else
     vim.cmd('copen')
+    if vim.g.quickfix_buffer ~= nil then
+      vim.api.nvim_set_option_value("modifiable", true, { buf = buffer })
+      vim.g.baleia.once(vim.g.quickfix_buffer)
+      vim.api.nvim_set_option_value("modified", false, { buf = buffer })
+      vim.api.nvim_set_option_value("modifiable", false, { buf = buffer })
+    end
   end
 end
 
@@ -114,6 +120,7 @@ local M = {
           pattern = "quickfix",
           callback = function()
             local buffer = vim.api.nvim_get_current_buf()
+            vim.g.quickfix_buffer = buffer
 
             -- Store the original vim.fn.setqflist function
             local original_setqflist = vim.fn.setqflist
