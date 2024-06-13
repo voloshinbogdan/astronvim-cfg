@@ -44,11 +44,25 @@ local M = {
       ["<Leader>r"] = { desc = "󱌣 Build"},
       ["<Leader>rq"] = { "<cmd>lua ToggleQuickfix()<cr>", desc = "Toggle Quickfix" },
       ["<Leader>rr"] = { "<cmd>Task start cmake run<cr>", desc = "Run"},
-      ["<Leader>rb"] = { "<cmd>Task start cmake build_all<cr>", desc = "Build All"},
+      ["<Leader>ra"] = { "<cmd>Task start cmake build_all<cr>", desc = "Build All"},
+      ["<Leader>rb"] = { "<cmd>Task start cmake build<cr>", desc = "Build"},
       ["<Leader>ri"] = { "<cmd>Task start cmake configure<cr>", desc = "Default init"},
       ["<Leader>rt"] = { "<cmd>Task set_module_param cmake target<cr>", desc = "Target"},
       ["<Leader>rd"] = { "<cmd>Task start cmake debug<cr>", desc = "Debug"},
-      ["<Leader>rx"] = { "<cmd>Task cancel<cr>", desc = "Cancel"}
+      ["<Leader>rx"] = { "<cmd>Task cancel<cr>", desc = "Cancel"},
+      ["<Leader>rc"] = { "<cmd>Task start cmake clean<cr>", desc = "Clean"},
+      ["<Leader>rR"] = { desc = "Run Config"},
+      ["<Leader>rRa"] = { "<cmd>Task set_task_param cmake run args<cr>", desc = "Run Args"},
+      ["<Leader>rRe"] = { "<cmd>Task set_task_param cmake run env<cr>", desc = "Run Env"},
+      ["<Leader>rD"] = { desc = "Debug Config"},
+      ["<Leader>rDa"] = { "<cmd>Task set_task_param cmake debug args<cr>", desc = "Debug Args"},
+      ["<Leader>rDe"] = { "<cmd>Task set_task_param cmake debug env<cr>", desc = "Debug Env"},
+      ["<Leader>rB"] = { desc = "Build Config"},
+      ["<Leader>rBa"] = { "<cmd>Task set_task_param cmake build args<cr>", desc = "Build Args"},
+      ["<Leader>rBe"] = { "<cmd>Task set_task_param cmake build env<cr>", desc = "Build Env"},
+      ["<Leader>rA"] = { desc = "Build All Config"},
+      ["<Leader>rAa"] = { "<cmd>Task set_task_param cmake build_all args<cr>", desc = "Build All Args"},
+      ["<Leader>rAe"] = { "<cmd>Task set_task_param cmake build_all env<cr>", desc = "Build All Env"}
     }
   },
   options = {
