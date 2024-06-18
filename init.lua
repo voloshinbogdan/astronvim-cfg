@@ -1,14 +1,27 @@
-function Dump(o)
-   if type(o) == 'table' then
-      local s = '{ '
-      for k,v in pairs(o) do
-         if type(k) ~= 'number' then k = '"'..k..'"' end
-         s = s .. '['..k..'] = ' .. Dump(v) .. ','
-      end
-      return s .. '} '
-   else
-      return tostring(o)
-   end
+function Dump(tbl, indent)
+    if not indent then indent = 0 end
+    local toprint = string.rep(" ", indent) .. "{\n"
+    indent = indent + 2 
+    for k, v in pairs(tbl) do
+        toprint = toprint .. string.rep(" ", indent)
+        if (type(k) == "number") then
+            toprint = toprint .. "[" .. k .. "] = "
+        elseif (type(k) == "string") then
+            toprint = toprint .. k ..  " = "   
+        end
+        if (type(v) == "number") then
+            toprint = toprint .. v .. ",\n"
+        elseif (type(v) == "string") then
+            toprint = toprint .. "\"" .. v .. "\",\n"
+        elseif (type(v) == "table") then
+            toprint = toprint .. Dump(v, indent + 2) .. ",\n"
+        else
+            toprint = toprint .. "\"" .. tostring(v) .. "\",\n"
+        end
+    end
+    indent = indent - 2
+    toprint = toprint .. string.rep(" ", indent) .. "}"
+    return toprint
 end
 
 vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
