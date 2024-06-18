@@ -183,6 +183,9 @@ local M = {
       end
     },
     {
+      "nvim-neotest/nvim-nio"
+    },
+    {
       "p00f/clangd_extensions.nvim", -- install lsp plugin
       init = function()
         -- load clangd extensions when clangd attaches
