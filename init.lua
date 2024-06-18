@@ -65,7 +65,7 @@ local M = {
   mappings = {
     -- first key is the mode
     n = {
-      ["<leader>e"] = { "<cmd>lua toggle_neo_tree()<cr>", desc = "Toggle Explorer" },
+      ["<leader>e"] = { "<cmd>lua ToggleNeoTree()<cr>", desc = "Toggle Explorer" },
 
       -- Tasks
       ["<Leader>fT"] = { "<cmd>TodoTelescope<cr>", desc = "Find Todo" },
