@@ -1,13 +1,13 @@
 function Dump(tbl, indent)
     if not indent then indent = 0 end
     local toprint = string.rep(" ", indent) .. "{\n"
-    indent = indent + 2 
+    indent = indent + 2
     for k, v in pairs(tbl) do
         toprint = toprint .. string.rep(" ", indent)
         if (type(k) == "number") then
             toprint = toprint .. "[" .. k .. "] = "
         elseif (type(k) == "string") then
-            toprint = toprint .. k ..  " = "   
+            toprint = toprint .. k ..  " = "
         end
         if (type(v) == "number") then
             toprint = toprint .. v .. ",\n"
@@ -44,8 +44,9 @@ function ToggleQuickfix()
   else
     vim.cmd('copen')
     if vim.g.quickfix_buffer ~= nil then
+      local buffer = vim.g.quickfix_buffer
       vim.api.nvim_set_option_value("modifiable", true, { buf = buffer })
-      vim.g.baleia.once(vim.g.quickfix_buffer)
+      vim.g.baleia.once(buffer)
       vim.api.nvim_set_option_value("modified", false, { buf = buffer })
       vim.api.nvim_set_option_value("modifiable", false, { buf = buffer })
     end
@@ -53,7 +54,7 @@ function ToggleQuickfix()
 end
 
 -- Set up the key binding to toggle Neo-tree
-function toggle_neo_tree()
+function ToggleNeoTree()
   vim.cmd("Neotree toggle")
   if require("dap").session() then
     require("dapui").open({ reset = true })
@@ -148,6 +149,8 @@ local M = {
 
             vim.g.baleia.once(buffer)
             -- Override the vim.fn.setqflist function
+
+---@diagnostic disable-next-line: duplicate-set-field
             vim.fn.setqflist = function(list, action, what)
               -- Get the lines before updating the quickfix list
               local original_lines = vim.api.nvim_buf_get_lines(buffer, 0, -1, false)
