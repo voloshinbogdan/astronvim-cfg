@@ -39,13 +39,21 @@ function ToggleQuickfix()
   end
 end
 
+-- Set up the key binding to toggle Neo-tree
+function toggle_neo_tree()
+  vim.cmd("Neotree toggle")
+  if require("dap").session() then
+    require("dapui").open({ reset = true })
+  end
+end
 
 local M = {
   mappings = {
     -- first key is the mode
     n = {
-      -- second key is the lefthand side of the map
-      -- mappings seen under group name "Buffer"
+      ["<leader>e"] = { "<cmd>lua toggle_neo_tree()<cr>", desc = "Toggle Explorer" },
+
+      -- Tasks
       ["<Leader>fT"] = { "<cmd>TodoTelescope<cr>", desc = "Find Todo" },
       ["<Leader>r"] = { desc = "󱌣 Build"},
       ["<Leader>rq"] = { "<cmd>lua ToggleQuickfix()<cr>", desc = "Toggle Quickfix" },
@@ -243,7 +251,7 @@ local M = {
             pos = 'botright', -- Default quickfix position.
             height = 12, -- Default height.
           },
-          dap_open_command = function() return require('dap').repl.open() end, -- Command to run after starting DAP session. You can set it to `false` if you don't want to open anything or `require('dapui').open` if you are using https://github.com/rcarriga/nvim-dap-ui
+          dap_open_command = function() return require('dapui').open() end,
         }
     end
     },
