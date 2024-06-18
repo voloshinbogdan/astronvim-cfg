@@ -221,6 +221,36 @@ local M = {
       opts = {
         ensure_installed = { "debugpy", "cpptools", "powershell_es" }, -- automatically install dap
       },
+      init = function()
+
+        local dap = require('dap')
+
+        dap.configurations.cpp[1]["setupCommands"] = {
+                    {
+                        text = '-enable-pretty-printing',
+                        description =  'enable pretty printing',
+                        ignoreFailures = false
+                    },
+                }
+        dap.configurations.cpp[2]["setupCommands"] = {
+                    {
+                        text = '-enable-pretty-printing',
+                        description =  'enable pretty printing',
+                        ignoreFailures = false
+                    },
+                }
+
+---@diagnostic disable-next-line: missing-fields
+        dap.configurations.cppdbg = {
+          type='cppdbg',
+          setupCommands =  {
+                    {
+                        text = '-enable-pretty-printing',
+                        description =  'enable pretty printing',
+                        ignoreFailures = false
+                    }}
+              }
+      end
     },
     {
       "nvim-neo-tree/neo-tree.nvim",
