@@ -61,6 +61,11 @@ function ToggleNeoTree()
   end
 end
 
+function CancelTask()
+  vim.cmd("Task cancel")
+  require("dapui").close()
+end
+
 local M = {
   mappings = {
     -- first key is the mode
@@ -77,7 +82,7 @@ local M = {
       ["<Leader>ri"] = { "<cmd>Task start cmake configure<cr>", desc = "Default init"},
       ["<Leader>rt"] = { "<cmd>Task set_module_param cmake target<cr>", desc = "Target"},
       ["<Leader>rd"] = { "<cmd>Task start cmake debug<cr>", desc = "Debug"},
-      ["<Leader>rx"] = { "<cmd>Task cancel<cr>", desc = "Cancel"},
+      ["<Leader>rx"] = { "<cmd>lua CancelTask()<cr>", desc = "Cancel"},
       ["<Leader>rc"] = { "<cmd>Task start cmake clean<cr>", desc = "Clean"},
       ["<Leader>rR"] = { desc = "Run Config"},
       ["<Leader>rRa"] = { "<cmd>Task set_task_param cmake run args<cr>", desc = "Run Args"},
