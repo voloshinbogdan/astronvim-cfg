@@ -47,6 +47,17 @@ function ToggleQuickfix()
       local buffer = vim.g.quickfix_buffer
       vim.api.nvim_set_option_value("modifiable", true, { buf = buffer })
       vim.g.baleia.once(buffer)
+      
+      -- Retrieve the lines again to remove `^[[K`
+      local processed_lines = vim.api.nvim_buf_get_lines(buffer, 0, -1, false)
+      for i = 1, #processed_lines do
+        processed_lines[i] = processed_lines[i]:gsub("\27%[K", "")
+      end
+
+      -- Set the cleaned lines back in the buffer
+      vim.api.nvim_buf_set_lines(buffer, 0, -1, false, processed_lines)
+
+
       vim.api.nvim_set_option_value("modified", false, { buf = buffer })
       vim.api.nvim_set_option_value("modifiable", false, { buf = buffer })
     end
@@ -103,8 +114,8 @@ local M = {
       -- set to true or false etc.
       relativenumber = true, -- sets vim.opt.relativenumber
       number = true, -- sets vim.opt.number
-      shiftwidth = 4,
-      tabstop = 4,
+      shiftwidth = 2,
+      tabstop = 2,
       colorcolumn = "80"
     }
   },
@@ -178,6 +189,15 @@ local M = {
               if start < end_ then
                 vim.api.nvim_set_option_value("modifiable", true, { buf = buffer })
                 vim.g.baleia.buf_set_lines(buffer, start, end_, false, vim.api.nvim_buf_get_lines(buffer, start, end_, false))
+                -- Retrieve the lines again to remove `^[[K`
+                local processed_lines = vim.api.nvim_buf_get_lines(buffer, start, end_, false)
+                for i = 1, #processed_lines do
+                  processed_lines[i] = processed_lines[i]:gsub("\27%[K", "")
+                end
+
+                -- Set the cleaned lines back in the buffer
+                vim.api.nvim_buf_set_lines(buffer, start, end_, false, processed_lines)
+
                 vim.api.nvim_set_option_value("modified", false, { buf = buffer })
                 vim.api.nvim_set_option_value("modifiable", false, { buf = buffer })
               end
