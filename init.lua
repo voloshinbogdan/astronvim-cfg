@@ -47,17 +47,6 @@ function ToggleQuickfix()
       local buffer = vim.g.quickfix_buffer
       vim.api.nvim_set_option_value("modifiable", true, { buf = buffer })
       vim.g.baleia.once(buffer)
-      
-      -- Retrieve the lines again to remove `^[[K`
-      local processed_lines = vim.api.nvim_buf_get_lines(buffer, 0, -1, false)
-      for i = 1, #processed_lines do
-        processed_lines[i] = processed_lines[i]:gsub("\27%[K", "")
-      end
-
-      -- Set the cleaned lines back in the buffer
-      vim.api.nvim_buf_set_lines(buffer, 0, -1, false, processed_lines)
-
-
       vim.api.nvim_set_option_value("modified", false, { buf = buffer })
       vim.api.nvim_set_option_value("modifiable", false, { buf = buffer })
     end
@@ -168,8 +157,20 @@ local M = {
 
 ---@diagnostic disable-next-line: duplicate-set-field
             vim.fn.setqflist = function(list, action, what)
+
+              -- Retrieve the lines again to remove `^[[K`
+              local processed_lines = what.lines
+              vim.fn.qf_colored_lines = {}
+              if processed_lines ~= nil then
+                for i = 1, #processed_lines do
+                  processed_lines[i] = processed_lines[i]:gsub("\27%[K", ""):gsub("(\27%[%d+[;%d]*m)(/[%w%p]+:%d+:%d+)", "%2 %1")
+                end
+              end
+
               -- Get the lines before updating the quickfix list
               local original_lines = vim.api.nvim_buf_get_lines(buffer, 0, -1, false)
+
+
 
               -- Call the original setqflist function
               local result = original_setqflist(list, action, what)
@@ -189,14 +190,6 @@ local M = {
               if start < end_ then
                 vim.api.nvim_set_option_value("modifiable", true, { buf = buffer })
                 vim.g.baleia.buf_set_lines(buffer, start, end_, false, vim.api.nvim_buf_get_lines(buffer, start, end_, false))
-                -- Retrieve the lines again to remove `^[[K`
-                local processed_lines = vim.api.nvim_buf_get_lines(buffer, start, end_, false)
-                for i = 1, #processed_lines do
-                  processed_lines[i] = processed_lines[i]:gsub("\27%[K", "")
-                end
-
-                -- Set the cleaned lines back in the buffer
-                vim.api.nvim_buf_set_lines(buffer, start, end_, false, processed_lines)
 
                 vim.api.nvim_set_option_value("modified", false, { buf = buffer })
                 vim.api.nvim_set_option_value("modifiable", false, { buf = buffer })
