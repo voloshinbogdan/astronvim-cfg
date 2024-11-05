@@ -96,6 +96,9 @@ local M = {
       ["<Leader>rA"] = { desc = "Build All Config"},
       ["<Leader>rAa"] = { "<cmd>Task set_task_param cmake build_all args<cr>", desc = "Build All Args"},
       ["<Leader>rAe"] = { "<cmd>Task set_task_param cmake build_all env<cr>", desc = "Build All Env"},
+      ["<Leader>rI"] = { desc = "Init Config"},
+      ["<Leader>rIa"] = { "<cmd>Task set_task_param cmake configure args<cr>", desc = "Init Args" },
+      ["<Leader>rIe"] = { "<cmd>Task set_task_param cmake configure env<cr>", desc = "Init Env" },
 
       -- Quickfix List Management
       ["]q"] = { "<cmd>cnext<cr>", desc = "Next Quickfix Item" },
