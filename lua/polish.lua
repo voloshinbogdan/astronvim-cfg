@@ -58,8 +58,4 @@ for i, config in ipairs(dap.configurations.c) do
   })
 end
 
-vim.opt.langmap =
-  "фисвуапршолдьтщзйкыегмцчняФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 require("langmapper").automapping { global = true, buffer = true }
-vim.api.nvim_del_keymap("n", "/")
-vim.api.nvim_del_keymap("n", "?")
