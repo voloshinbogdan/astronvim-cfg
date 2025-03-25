@@ -56,6 +56,14 @@ return {
         -- Quickfix Filtering and Navigation
         ["<Leader>fq"] = { "<cmd>Telescope quickfix<cr>", desc = "Search Quickfix" },
 
+        ["<Leader>e"] = { "<cmd>Telescope find_files<cr>", desc = "Find File" },
+        ["<Leader>E"] = {
+          function() require("telescope.builtin").find_files { hidden = true, no_ignore = true } end,
+          desc = "Find Any File",
+        },
+        ["<Leader>s"] = { "<cmd>Telescope lsp_workspace_symbols<cr>", desc = "Search Workspace Symbols" },
+        ["<Leader>o"] = false, -- disable
+
         -- tables with just a `desc` key will be registered with which-key if it's installed
         -- this is useful for naming menus
         -- ["<Leader>b"] = { desc = "Buffers" },
