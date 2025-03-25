@@ -44,8 +44,8 @@ return {
         },
         v = {
           -- Visual Mode Search and Replace
-          ["<C-r>"] = { "<cmd>SearchReplaceSingleBufferVisualSelection<cr>", desc = "Replace visual selection" },
-          ["<C-s>"] = {
+          ["<C-s>"] = { "<cmd>SearchReplaceSingleBufferVisualSelection<cr>", desc = "Replace visual selection" },
+          ["<C-r>"] = {
             "<cmd>SearchReplaceWithinVisualSelection<cr>",
             desc = "Replace within visual selection",
           },
