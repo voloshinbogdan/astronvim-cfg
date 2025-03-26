@@ -9,5 +9,6 @@ return {
   { import = "astrocommunity.programming-language-support.rest-nvim" },
   { import = "astrocommunity.programming-language-support.csv-vim" },
   { import = "astrocommunity.recipes.ai" },
+  { import = "astrocommunity/file-explorer/oil-nvim" },
   -- import/override with your plugins folder
 }
