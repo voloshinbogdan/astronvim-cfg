@@ -53,7 +53,27 @@ return {
           ["<F4>G"] = { "<cmd>CMakeGenerate!<cr>", desc = "Init (Clean & Generate)" },
           ["<F4>t"] = { "<cmd>CMakeSelectBuildTarget<cr>", desc = "Target" },
           ["<F4>d"] = { "<cmd>CMakeDebug<cr>", desc = "Debug" },
-          ["<F4>x"] = { "<cmd>CMakeStopExecutor<cr>", desc = "Cancel" },
+          ["<F4>x"] = {
+            function()
+              require("cmake-tools").stop_executor()
+              require("cmake-tools").stop_runner()
+              require("dap").terminate()
+            end,
+            desc = "Stop",
+          },
+          ["<F4>X"] = {
+            function()
+              require("cmake-tools").stop_executor()
+              require("cmake-tools").stop_runner()
+              require("cmake-tools").close_executor()
+              require("cmake-tools").close_runner()
+
+              require("dap").terminate()
+              require("dap").close()
+              require("dapui").close()
+            end,
+            desc = "Stop & Close",
+          },
           ["<F4>c"] = { "<cmd>CMakeClean<cr>", desc = "Clean" },
 
           -- Tests
