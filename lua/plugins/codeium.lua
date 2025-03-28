@@ -1,5 +1,5 @@
--- if true then return {} end
-if os.getenv "NVIMLIGHT" then return {} end
+if true then return {} end
+-- if os.getenv "NVIMLIGHT" then return {} end
 
 return {
   "Exafunction/codeium.nvim",

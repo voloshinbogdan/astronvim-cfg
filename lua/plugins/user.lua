@@ -37,4 +37,8 @@ return {
       })
     end,
   },
+  {
+    "fedorenchik/AnsiEsc",
+    lazy = false,
+  },
 }
