@@ -12,32 +12,36 @@ return {
     opts = {
       mappings = {
         n = {
+          ["<leader>?"] = { desc = "Replace" },
           -- Search and Replace
-          ["<leader>ro"] = {
+          ["<leader>?o"] = {
             "<cmd>SearchReplaceSingleBufferOpen<cr>",
             desc = "Open search and replacn in current buffer",
           },
-          ["<leader>rw"] = {
+          ["<leader>?w"] = {
             "<cmd>SearchReplaceSingleBufferCFile<cr>",
             desc = "Replace word under cursor in current buffer",
           },
-          ["<leader>rbb"] = {
+
+          ["<leader>?m"] = { desc = "Replace in multiple buffers" },
+
+          ["<leader>?mb"] = {
             "<cmd>SearchReplaceMultiBufferOpen<cr>",
             desc = "Open search and replace across multiple buffers",
           },
-          ["<leader>rbw"] = {
+          ["<leader>?mw"] = {
             "<cmd>SearchReplaceMultiBufferCWord<cr>",
             desc = "Replace word under cursor across multiple buffers",
           },
-          ["<leader>rbW"] = {
+          ["<leader>?mW"] = {
             "<cmd>SearchReplaceMultiBufferCWORD<cr>",
             desc = "Replace WORD under cursor across multiple buffers",
           },
-          ["<leader>rbe"] = {
+          ["<leader>?me"] = {
             "<cmd>SearchReplaceMultiBufferCExpr<cr>",
             desc = "Replace expression under cursor across multiple buffers",
           },
-          ["<leader>rbf"] = {
+          ["<leader>?mf"] = {
             "<cmd>SearchRepbaceMultiBufferCFile<cr>",
             desc = "Replace file name under cursor across multiple buffers",
           },
